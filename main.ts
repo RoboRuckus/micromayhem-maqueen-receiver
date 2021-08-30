@@ -6,13 +6,13 @@
 //  ---------------
 let RADIO_GROUP = 90
 let RADIO_DEADZONE = 20
-let RADIO_MAX = 1024
+let RADIO_MAX = 500
 let LEFT_MOTOR = Motors.M1
 let RIGHT_MOTOR = Motors.M2
 let FORWARD = Dir.CW
 let REVERSE = Dir.CCW
-let MAX_SPEED = 80
-let TURN_SPEED_RATIO = 1 / 2
+let MAX_SPEED = 40
+let TURN_SPEED_RATIO = 1 / 1
 //  -----------
 //  Code Begins
 //  -----------
