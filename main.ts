@@ -173,9 +173,9 @@ function setup() {
     radio.onReceivedValue(function on_received_value(name: string, value: number) {
         
         
-        if (name == "straight") {
+        if (name == "joystick_straight") {
             straight_channel = value
-        } else if (name == "turn") {
+        } else if (name == "joystick_turn") {
             turn_channel = value
         }
         

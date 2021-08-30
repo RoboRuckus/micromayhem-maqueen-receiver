@@ -41,9 +41,9 @@ def translate(value, left_min, left_max, right_min, right_max):
 def on_received_value(name, value):
     global straight_channel
     global turn_channel
-    if name == 'straight':
+    if name == 'joystick_straight':
         straight_channel = value
-    elif name == 'turn':
+    elif name == 'joystick_turn':
         turn_channel = value
 
 def radio_to_speed(radio_value):
