@@ -1,181 +1,146 @@
-# The following extensions are required:
-# * MaqueenPlus
-# This program is not block-code compatible.
-# ---------------
-# Hardware Values
-# ---------------
+def TurnLeft(num: number):
+    DFRobotMaqueenPlus.clear_distance(Motors.ALL)
+    DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CCW, 55)
+    DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, 55)
+    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < num or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < num:
+        pass
 
-RADIO_GROUP = 90
-RADIO_DEADZONE = 20
-RADIO_MAX = 500
-
-LEFT_MOTOR = Motors.M1
-RIGHT_MOTOR = Motors.M2
-
-FORWARD = Dir.CW
-REVERSE = Dir.CCW
-
-MAX_SPEED = 40
-TURN_SPEED_RATIO = 1/1
-
-# -----------
-# Code Begins
-# -----------
-
-straight_channel = 0
-turn_channel = 0
-left_motor_speed = 0
-right_motor_speed = 0
-
-def constrain(val, min_val, max_val):
-    return min(max_val, max(min_val, val))
-
-def translate(value, left_min, left_max, right_min, right_max):
-    left_span = left_max - left_min
-    right_span = right_max - right_min
-    # Convert the left range into a 0-1 range float
-    value_scaled = (value - left_min) / left_span
-    # Convert the 0-1 range into a value in the right range
-    return right_min + (value_scaled * right_span)
+def on_received_string(receivedString):
+    if receivedString == "FA":
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
+        basic.show_leds("""
+            . . # . .
+            . # # # .
+            # . # . #
+            . . # . .
+            . . # . .
+        """)
+        MoveForward(1.1)
+    elif receivedString == "BA":
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.YELLOW)
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.YELLOW)
+        basic.show_leds("""
+            . . # . .
+            . . # . .
+            # . # . #
+            . # # # .
+            . . # . .
+        """)
+        MoveBackward(1.1)
+    elif receivedString == "LA":
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
+        basic.show_leds("""
+            . . # . .
+            . # . . .
+            # . # # #
+            . # . . .
+            . . # . .
+        """)
+        TurnLeft(_90degrees)
+    elif receivedString == "RA":
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
+        basic.show_leds("""
+            . . # . .
+            . . . # .
+            # # # . #
+            . . . # .
+            . . # . .
+        """)
+        TurnRight(_90degrees)
+    elif receivedString == "slowForward":
+        MoveForward(0.01)
+    elif receivedString == "slowBackward":
+        MoveBackward(0.01)
+    elif receivedString == "oneDegreeLeft":
+        TurnLeft(0.01)
+    elif receivedString == "oneDegreeRight":
+        TurnRight(0.01)
+    else:
+        pass
+    DFRobotMaqueenPlus.motot_stop(Motors.ALL)
+    basic.show_leds("""
+        # . . . #
+        . # # # .
+        . # # . .
+        . # . . .
+        . . . . .
+    """)
+    DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.RED)
+    DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.RED)
+radio.on_received_string(on_received_string)
 
 def on_received_value(name, value):
-    global straight_channel
-    global turn_channel
-    if name == 'joystick_straight':
-        straight_channel = value
-    elif name == 'joystick_turn':
-        turn_channel = value
+    if name == "F":
+        DFRobotMaqueenPlus.motot_run(Motors.ALL, Dir.CW, Math.map(value, 550, 1023, 10, 255))
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
+        basic.show_leds("""
+            . . # . .
+            . # . # .
+            # . # . #
+            . . # . .
+            . . # . .
+        """)
+    elif name == "B":
+        DFRobotMaqueenPlus.motot_run(Motors.ALL, Dir.CCW, Math.map(value, 1, 540, 255, 10))
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.BLUE)
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.BLUE)
+        basic.show_leds("""
+            . . # . .
+            . . # . .
+            # . # . #
+            . # . # .
+            . . # . .
+        """)
+    elif name == "L":
+        DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, Math.map(value, 1, 450, 255, 40))
+        DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, 20)
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
+        basic.show_leds("""
+            . . # . .
+            . # . . .
+            # . # # #
+            . # . . .
+            . . # . .
+        """)
+    elif name == "R":
+        DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, Math.map(value, 550, 1023, 40, 255))
+        DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, 20)
+        DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
+        basic.show_leds("""
+            . . # . .
+            . . . # .
+            # # # . #
+            . . . # .
+            . . # . .
+        """)
+radio.on_received_value(on_received_value)
 
-def radio_to_speed(radio_value):
-    speed = translate(radio_value, -RADIO_MAX, RADIO_MAX, -MAX_SPEED, MAX_SPEED)
-    speed = constrain(speed, -MAX_SPEED, MAX_SPEED)
-    return speed
+def TurnRight(num2: number):
+    DFRobotMaqueenPlus.clear_distance(Motors.ALL)
+    DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, 55)
+    DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CCW, 55)
+    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < num2 or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < num2:
+        pass
+def MoveBackward(num3: number):
+    DFRobotMaqueenPlus.clear_distance(Motors.ALL)
+    DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CCW, basespeed)
+    DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CCW, basespeed)
+    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < num3 or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < num3:
+        pass
+def MoveForward(num4: number):
+    DFRobotMaqueenPlus.clear_distance(Motors.ALL)
+    DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, basespeed)
+    DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, basespeed)
+    while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < num4 or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < num4:
+        pass
+basespeed = 0
+_90degrees = 0
+radio.set_group(1)
+_90degrees = 0.35
+basespeed = 50
 
-# Lazy implementation of mixing
-def calculate_speeds_from_radio():
-    global left_motor_speed
-    global right_motor_speed
-    # Reset to 0
-    left_motor_speed = 0
-    right_motor_speed = 0
-    # Forward/Backward
-    if abs(straight_channel) > RADIO_DEADZONE:
-        left_motor_speed = radio_to_speed(straight_channel)
-        right_motor_speed = radio_to_speed(straight_channel)
-    # Left/Right
-    if abs(turn_channel) > RADIO_DEADZONE:
-        left_motor_speed += radio_to_speed(turn_channel * TURN_SPEED_RATIO)
-        right_motor_speed -= radio_to_speed(turn_channel * TURN_SPEED_RATIO)
-    # Constrain motors to max speed when mixing
-    left_motor_speed = constrain(left_motor_speed, -MAX_SPEED, MAX_SPEED)
-    right_motor_speed = constrain(right_motor_speed, -MAX_SPEED, MAX_SPEED)
-
-def set_motor_speeds():
-    if left_motor_speed > 0:
-        DFRobotMaqueenPlus.motot_run(LEFT_MOTOR, FORWARD, left_motor_speed)
-    elif left_motor_speed < 0:
-        DFRobotMaqueenPlus.motot_run(LEFT_MOTOR, REVERSE, abs(left_motor_speed))
-    else:
-        DFRobotMaqueenPlus.motot_stop(LEFT_MOTOR)
-
-    if right_motor_speed > 0:
-        DFRobotMaqueenPlus.motot_run(RIGHT_MOTOR, FORWARD, right_motor_speed)
-    elif right_motor_speed < 0:
-        DFRobotMaqueenPlus.motot_run(RIGHT_MOTOR, REVERSE, abs(right_motor_speed))
-    else:
-        DFRobotMaqueenPlus.motot_stop(RIGHT_MOTOR)
-
-def direction_arrow():
-    # Mirror channels so that it points in the direction it's moving
-    straight = -straight_channel
-    turn = -turn_channel
-    if straight > RADIO_DEADZONE:
-        if turn > RADIO_DEADZONE:
-            basic.show_leds("""
-                            . # # # #
-                            . . . # #
-                            . . # . #
-                            . # . . #
-                            # . . . .
-                            """)
-        elif turn < -RADIO_DEADZONE:
-            basic.show_leds("""
-                            # # # # .
-                            # # . . .
-                            # . # . .
-                            # . . # .
-                            . . . . #
-                            """)
-        else:
-            basic.show_leds("""
-                            . . # . .
-                            . # # # .
-                            # . # . #
-                            . . # . .
-                            . . # . .
-                            """)
-    elif straight < -RADIO_DEADZONE:
-        if turn > RADIO_DEADZONE:
-            basic.show_leds("""
-                            # . . . .
-                            . # . . #
-                            . . # . #
-                            . . . # #
-                            . # # # #
-                            """)
-        elif turn < -RADIO_DEADZONE:
-            basic.show_leds("""
-                            . . . . #
-                            # . . # .
-                            # . # . .
-                            # # . . .
-                            # # # # .
-                            """)
-        else:
-            basic.show_leds("""
-                            . . # . .
-                            . . # . .
-                            # . # . #
-                            . # # # .
-                            . . # . .
-                            """)
-    else:
-        if turn > RADIO_DEADZONE:
-            basic.show_leds("""
-                            . . # . .
-                            . . . # .
-                            # # # # #
-                            . . . # .
-                            . . # . .
-                            """)
-        elif turn < -RADIO_DEADZONE:
-            basic.show_leds("""
-                            . . # . .
-                            . # . . .
-                            # # # # #
-                            . # . . .
-                            . . # . .
-                            """)
-        else:
-            basic.show_leds("""
-                            . # # # .
-                            # . . . #
-                            # . . . #
-                            # . . . #
-                            . # # # .
-                            """)
-
-def setup():
-    basic.show_icon(IconNames.HEART)
-    radio.on_received_value(on_received_value)
-    radio.set_group(RADIO_GROUP)
-    DFRobotMaqueenPlus.i2c_init()
-
-def loop():
-    calculate_speeds_from_radio()
-    set_motor_speeds()
-    direction_arrow()
-    # basic.pause(25) # Keep the refresh rate sane
-
-setup()
-basic.forever(loop)
+def on_forever():
+    pass
+basic.forever(on_forever)
