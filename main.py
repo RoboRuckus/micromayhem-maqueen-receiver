@@ -7,12 +7,12 @@ def on_received_string(receivedString):
         display_direction("backward")
         MoveBackward(fullmove)
     elif receivedString == "oneLeft":
-        turn_signal("left", 3)
         display_direction("left")
+        turn_signal("left", 4)
         TurnLeft(quarterTurn)
     elif receivedString == "oneRight":
-        turn_signal("right", 3)
         display_direction("right")
+        turn_signal("right", 4)
         TurnRight(quarterTurn)
     elif receivedString == "littleForward":
         display_direction("forward")
@@ -38,8 +38,8 @@ def on_received_string(receivedString):
         . # . . .
         . . . . .
     """)
-    DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.White)
-    DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.White)
+    DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.WHITH)
+    DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.WHITH)
 radio.on_received_string(on_received_string)
 
 def on_received_value(name, value):
@@ -93,20 +93,20 @@ def MoveForward(num4: number):
     while abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M2))) < num4 or abs(parse_float(DFRobotMaqueenPlus.reade_distance(Motors1.M1))) < num4:
         pass
 
-def turn_signal(direction: string, blink: number):
-    lightToBlink = "1"
+def turn_signal(direction: str, blink: number):
+    lightToBlink = 2
     if direction == "left":
-        lightToBlink = "2"
+        lightToBlink = 1
     
     for i in range(blink):
         DFRobotMaqueenPlus.set_rgb_light(lightToBlink, Color.YELLOW)
-        basic.pause(500)
-        DFRobotMaqueenPlus.set_rgb_light(lightToBlink, Color.WHITE)
-        basic.pause(500)
+        basic.pause(250)
+        DFRobotMaqueenPlus.set_rgb_light(lightToBlink, Color.WHITH)
+        basic.pause(250)
 
 
 
-def display_direction(direction: string):
+def display_direction(direction: str):
     if direction == "forward":
         basic.show_leds("""
             . . # . .
