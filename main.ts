@@ -45,6 +45,25 @@ function right_turn_signal (rightBlink: number) {
         basic.pause(250)
     }
 }
+function setBTGroup () {
+    basic.showString("SET CHANNEL")
+    soundExpression.giggle.playUntilDone()
+    done = 0
+    btgroupnum = 0
+    while (done == 0) {
+        if (input.buttonIsPressed(Button.B)) {
+            music.playTone(131, music.beat(BeatFraction.Sixteenth))
+            btgroupnum += 1
+        }
+        if (input.buttonIsPressed(Button.A)) {
+            soundExpression.spring.playUntilDone()
+            done = 1
+        }
+        basic.showNumber(btgroupnum)
+    }
+    radio.setGroup(btgroupnum)
+    basic.showIcon(IconNames.Yes)
+}
 function display_damage () {
     basic.showLeds(`
         # . . . #
@@ -159,6 +178,8 @@ function turn_right (rightTurnAmount: number) {
     	
     }
 }
+let btgroupnum = 0
+let done = 0
 let turnAmount: number[] = []
 let moveAmount: number[] = []
 let turnSpeed = 0
@@ -184,4 +205,4 @@ moveAmount = [
 2.25
 ]
 turnAmount = [0.01, 0.35, 0.7]
-radio.setGroup(1)
+setBTGroup()
