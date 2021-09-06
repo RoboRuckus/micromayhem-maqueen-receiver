@@ -37,15 +37,20 @@ def right_turn_signal(rightBlink: number):
         basic.pause(250)
 def setBTGroup():
     global done, btgroupnum
+    basic.show_string("SET CHANNEL")
+    soundExpression.giggle.play_until_done()
     done = 0
     btgroupnum = 0
     while done == 0:
         if input.button_is_pressed(Button.B):
+            music.play_tone(131, music.beat(BeatFraction.SIXTEENTH))
             btgroupnum += 1
         if input.button_is_pressed(Button.A):
+            soundExpression.spring.play_until_done()
             done = 1
         basic.show_number(btgroupnum)
     radio.set_group(btgroupnum)
+    basic.show_icon(IconNames.YES)
 def display_damage():
     basic.show_leds("""
         # . . . #
