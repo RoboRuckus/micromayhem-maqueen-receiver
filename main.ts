@@ -126,13 +126,12 @@ radio.onReceivedString(function (receivedString) {
         turn_right(convertedString[1])
     } else if (convertedString[0] == DAMAGE) {
         display_damage()
-    } else {
-    	
     }
     DFRobotMaqueenPlus.mototStop(Motors.ALL)
     DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.WHITH)
     DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.WHITH)
     clear_convertedString()
+    display_damage()
 })
 function clear_convertedString () {
     for (let i = 0; i <= 1; i++) {
@@ -141,26 +140,27 @@ function clear_convertedString () {
 }
 radio.onReceivedValue(function (name, value) {
     if (name == "forward") {
+        display_forward()
         DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CW, Math.map(value, 550, 1023, 10, 255))
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.GREEN)
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.GREEN)
-        display_forward()
     } else if (name == "backward") {
+        display_backward()
         DFRobotMaqueenPlus.mototRun(Motors.ALL, Dir.CCW, Math.map(value, 1, 540, 255, 10))
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.BLUE)
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.BLUE)
-        display_backward()
     } else if (name == "left") {
+        display_left()
         DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, Math.map(value, 1, 450, 255, 40))
         DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, 20)
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBL, Color.GREEN)
-        display_left()
     } else if (name == "right") {
+        display_right()
         DFRobotMaqueenPlus.mototRun(Motors.M1, Dir.CW, Math.map(value, 550, 1023, 40, 255))
         DFRobotMaqueenPlus.mototRun(Motors.M2, Dir.CW, 20)
         DFRobotMaqueenPlus.setRGBLight(RGBLight.RGBR, Color.GREEN)
-        display_right()
     }
+    display_damage()
 })
 function move_forward (forwardAmount: number) {
     DFRobotMaqueenPlus.clearDistance(Motors.ALL)
