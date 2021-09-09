@@ -200,9 +200,9 @@ basespeed = 50
 turnSpeed = 50
 moveAmount = [
 0.01,
-0.75,
-1.5,
-2.25
+0.751,
+1.7,
+2.73
 ]
-turnAmount = [0.01, 0.35, 0.7]
+turnAmount = [0.01, 0.36, 0.8]
 setBTGroup()
