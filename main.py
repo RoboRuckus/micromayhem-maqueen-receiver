@@ -108,12 +108,11 @@ def on_received_string(receivedString):
         turn_right(convertedString[1])
     elif convertedString[0] == DAMAGE:
         display_damage()
-    else:
-        pass
     DFRobotMaqueenPlus.motot_stop(Motors.ALL)
     DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.WHITH)
     DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.WHITH)
     clear_convertedString()
+    display_damage()
 radio.on_received_string(on_received_string)
 
 def clear_convertedString():
@@ -122,25 +121,26 @@ def clear_convertedString():
 
 def on_received_value(name, value):
     if name == "forward":
+        display_forward()
         DFRobotMaqueenPlus.motot_run(Motors.ALL, Dir.CW, Math.map(value, 550, 1023, 10, 255))
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
-        display_forward()
     elif name == "backward":
+        display_backward()
         DFRobotMaqueenPlus.motot_run(Motors.ALL, Dir.CCW, Math.map(value, 1, 540, 255, 10))
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.BLUE)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.BLUE)
-        display_backward()
     elif name == "left":
+        display_left()
         DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, Math.map(value, 1, 450, 255, 40))
         DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, 20)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBL, Color.GREEN)
-        display_left()
     elif name == "right":
+        display_right()
         DFRobotMaqueenPlus.motot_run(Motors.M1, Dir.CW, Math.map(value, 550, 1023, 40, 255))
         DFRobotMaqueenPlus.motot_run(Motors.M2, Dir.CW, 20)
         DFRobotMaqueenPlus.set_rgb_light(RGBLight.RGBR, Color.GREEN)
-        display_right()
+    display_damage()
 radio.on_received_value(on_received_value)
 
 def move_forward(forwardAmount: number):
@@ -175,6 +175,6 @@ DAMAGE = 5
 convertedString = [0, 0, 0]
 basespeed = 50
 turnSpeed = 50
-moveAmount = [0.01, 0.75, 1.5, 2.25]
-turnAmount = [0.01, 0.35, 0.7]
+moveAmount = [0.01, 0.751, 1.7, 2.73]
+turnAmount = [0.01, 0.36, 0.8]
 setBTGroup()
