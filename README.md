@@ -6,6 +6,18 @@ This code was originally designed for the Maqueen Plus from DFrobot
 
 > Open this page at [https://tagnw.github.io/micromayhem-maqueen-receiver/](https://tagnw.github.io/micromayhem-maqueen-receiver/)
 
+## Usage
+
+### Setup
+
+Once code has been pushed to micro:bit you will be prompted to set the Bluetooth frequency channel. This channel should match the one set on your [Micromayhem joystick controller](https://github.com/tagnw/micromayhem-joystick-controller).
+
+After that you are off to the races. Use your controller to move the Maqueen around the board as you play.
+
+## Intended use
+
+This code base will be changing rapidly over the next few months as it is intended to be used in conjunction with the [RoboRuckus](https://www.roboruckus.com/) [game server](https://www.roboruckus.com/documentation/setting-up-the-game/).
+
 ## Use as Extension
 
 This repository can be added as an **extension** in MakeCode.
