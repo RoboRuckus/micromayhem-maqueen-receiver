@@ -1,6 +1,6 @@
 # MicroMayhem Receiver
 
-This code was originaly designed for the Maqueen Plus from DFrobot
+This code was originally designed for the Maqueen Plus from DFrobot
 
 ## View on github.io
 

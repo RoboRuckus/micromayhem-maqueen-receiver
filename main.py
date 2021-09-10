@@ -175,6 +175,6 @@ DAMAGE = 5
 convertedString = [0, 0, 0]
 basespeed = 50
 turnSpeed = 50
-moveAmount = [0.01, 0.751, 1.7, 2.73]
-turnAmount = [0.01, 0.36, 0.8]
+moveAmount = [0.01, 0.751, 1.7, 2.73] # [A slight adjustment, 6" movement, 12" movement, 18" movement]
+turnAmount = [0.01, 0.36, 0.8] # [A slight adjustment, 90 degree turn, U-turn]
 setBTGroup()
